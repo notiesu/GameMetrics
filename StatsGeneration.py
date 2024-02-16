@@ -1,4 +1,5 @@
 import nba_api.stats.endpoints as nba
+from nba_api.stats.endpoints import commonallplayers
 import pandas
 import pandas as pd
 import numpy as np
@@ -37,34 +38,37 @@ for player in players:
 
 game_ids = []
 
-for season_num in seasons:
-    current_season = nba.CommonAllPlayers(
+"""Using a function for readability and flexibility"""
+
+
+def get_active_players_for_season(season_num):
+    all_players = commonallplayers.CommonAllPlayers(
         is_only_current_season=0, season=season_num
     ).get_data_frames()[0]
-    current_season = current_season[current_season["ROSTERSTATUS"] == 1]
+    active_players = all_players[all_players["ROSTERSTATUS"] == 1]
+    return active_players
 
-    # cur_season = all active players in that season
 
-    """Refer to here for easy team box score calculations"""
+seasons = ["2019-20", "2020-21"]
+active_players_by_season = {}
+
+for season_num in seasons:
+    current_season = active_players_by_season[season_num] = (
+        get_active_players_for_season(season_num)
+    )
 
     if lebron_id in current_season["PERSON_ID"].values:
-        season_team = current_season["TEAM_ID"][
-            current_season["PERSON_ID"] == lebron_id
-        ]
+        season_team = current_season.loc[
+            current_season["PERSON_ID"] == lebron_id, "TEAM_ID"
+        ].iloc[0]
         games = nba.leaguegamefinder.LeagueGameFinder(
             team_id_nullable=season_team,
             season_nullable=season_num,
             season_type_nullable="Regular Season",
         ).get_data_frames()[0]
-        game_ids.append(games["GAME_ID"].values)
+        game_ids.extend(games["GAME_ID"].values.tolist())
 
-    # games=all games target player's current team played (including target player DNP)
-
-# Most basic approach: Prediction based off of own player stats
-# X data is going to be completely based off of target player's stats in each box s
-# Making list of game ids
-
-game_ids = np.concatenate(game_ids)
+game_ids = np.array(game_ids)
 
 
 print(game_ids)
