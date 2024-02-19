@@ -12,6 +12,8 @@ import matplotlib as plot
 # import tensorflow as tf
 from nba_api.stats.static import teams, players
 
+############### Another template script. Might be used for reference, but otherwise deprecated.#######
+
 nba_teams = teams.get_teams()
 players = players.get_active_players()
 
