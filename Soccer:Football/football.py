@@ -29,6 +29,7 @@ Year - Year
 Season - Season
 """
 
+""" ------------------------------------------GOAL KEEPERS DATA------------------------------------------ """
 
 """ Reading the excel file into a pandas dataframe"""
 data = pd.read_excel("Soccer:Football/DataSets/all_goalkeepers.xlsx")
@@ -87,3 +88,17 @@ clean_data = pd.read_excel("Soccer:Football/DataSets/cleaned_all_goalkeepers.xls
 """ Cleaned data has 616 observations"""
 print(clean_data.info())
 print(data.info())
+
+
+""" ------------------------------------------MATCHES DATA------------------------------------------ """
+print("Matches Data ------------------------------------")
+data = pd.read_excel("Soccer:Football/DataSets/matches.xlsx")
+
+
+print("Cleaned Matches ----- ")
+clean_matches_data = data.dropna(thresh=len(data.columns) - 75)
+clean_matches_data.info()
+
+clean_matches_data.to_excel("Soccer:Football/DataSets/cleaned_matches.xlsx")
+missing_info = clean_matches_data.isnull().sum() / len(data)
+print(missing_info)
