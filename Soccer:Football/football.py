@@ -91,6 +91,8 @@ print(data.info())
 
 """ Finding Outliers"""
 
+""" Function for Displaying boxplots with outliers in red with their numbered index"""
+
 
 def boxplots(dataframe):
     num_cols = dataframe.select_dtypes(include=["number"]).columns.tolist()
@@ -116,7 +118,35 @@ def boxplots(dataframe):
         plt.show()
 
 
+""" Display the box plots"""
 boxplots(clean_data)
+
+""" Function to remove the outliers"""
+
+
+def remove_outliers(dataframe):
+    indices_to_drop = set()
+    num_cols = dataframe.select_dtypes(include=["number"]).columns.tolist()
+
+    for col in num_cols:
+        Q1 = dataframe[col].quantile(0.25)
+        Q3 = dataframe[col].quantile(0.75)
+        IQR = Q3 - Q1
+        outlier_indices = dataframe[
+            (dataframe[col] < (Q1 - 1.5 * IQR)) | (dataframe[col] > (Q3 + 1.5 * IQR))
+        ].index
+        indices_to_drop.update(outlier_indices)
+
+    cleaned_dataframe = dataframe.drop(index=list(indices_to_drop))
+    return cleaned_dataframe
+
+
+""" Removing and viewing results"""
+clean_data_no_outliers = remove_outliers(clean_data)
+print(clean_data_no_outliers)
+
+""" 513 entries"""
+clean_data_no_outliers.info()
 """ ------------------------------------------MATCHES DATA------------------------------------------ """
 # print("Matches Data ------------------------------------")
 # data = pd.read_excel("Soccer:Football/DataSets/matches.xlsx")
