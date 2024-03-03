@@ -89,16 +89,43 @@ clean_data = pd.read_excel("Soccer:Football/DataSets/cleaned_all_goalkeepers.xls
 print(clean_data.info())
 print(data.info())
 
+""" Finding Outliers"""
 
+
+def boxplots(dataframe):
+    num_cols = dataframe.select_dtypes(include=["number"]).columns.tolist()
+    for col in num_cols:
+        plt.figure(figsize=(10, 6))
+        bp = plt.boxplot(
+            dataframe[col].dropna(), flierprops=dict(markerfacecolor="r", marker="o")
+        )
+
+        for flier in bp["fliers"]:
+            y = flier.get_ydata()
+            x = flier.get_xdata()
+            for i in range(len(y)):
+
+                plt.text(
+                    x[i],
+                    y[i],
+                    f"{dataframe[col][dataframe[col] == y[i]].index[0]}",
+                    color="blue",
+                )
+
+        plt.title(col)
+        plt.show()
+
+
+boxplots(clean_data)
 """ ------------------------------------------MATCHES DATA------------------------------------------ """
-print("Matches Data ------------------------------------")
-data = pd.read_excel("Soccer:Football/DataSets/matches.xlsx")
+# print("Matches Data ------------------------------------")
+# data = pd.read_excel("Soccer:Football/DataSets/matches.xlsx")
 
 
-print("Cleaned Matches ----- ")
-clean_matches_data = data.dropna(thresh=len(data.columns) - 75)
-clean_matches_data.info()
+# print("Cleaned Matches ----- ")
+# clean_matches_data = data.dropna(thresh=len(data.columns) - 75)
+# clean_matches_data.info()
 
-clean_matches_data.to_excel("Soccer:Football/DataSets/cleaned_matches.xlsx")
-missing_info = clean_matches_data.isnull().sum() / len(data)
-print(missing_info)
+# clean_matches_data.to_excel("Soccer:Football/DataSets/cleaned_matches.xlsx")
+# missing_info = clean_matches_data.isnull().sum() / len(data)
+# print(missing_info)
