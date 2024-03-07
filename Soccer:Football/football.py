@@ -101,7 +101,7 @@ def boxplots(dataframe):
         bp = plt.boxplot(
             dataframe[col].dropna(), flierprops=dict(markerfacecolor="r", marker="o")
         )
-
+        """ Fliers are synonymouse with outliers"""
         for flier in bp["fliers"]:
             y = flier.get_ydata()
             x = flier.get_xdata()
@@ -138,6 +138,8 @@ def remove_outliers(dataframe):
         indices_to_drop.update(outlier_indices)
 
     cleaned_dataframe = dataframe.drop(index=list(indices_to_drop))
+    """We need to learn more about these outliers, specifically the outliers in Sv%"""
+    print(indices_to_drop)
     return cleaned_dataframe
 
 
@@ -148,13 +150,17 @@ print(clean_data_no_outliers)
 """ 513 entries"""
 clean_data_no_outliers.info()
 """ ------------------------------------------MATCHES DATA------------------------------------------ """
-# print("Matches Data ------------------------------------")
-# data = pd.read_excel("Soccer:Football/DataSets/matches.xlsx")
+print("Matches Data ------------------------------------")
+data = pd.read_excel("Soccer:Football/DataSets/matches.xlsx")
 
 
-# print("Cleaned Matches ----- ")
-# clean_matches_data = data.dropna(thresh=len(data.columns) - 75)
-# clean_matches_data.info()
+print("Cleaned Matches ----- ")
+clean_matches_data = data.dropna(thresh=len(data.columns) - 50)
+clean_matches_data.info()
+
+clean_matches_data.to_excel("Soccer:Football/DataSets/cleaned_matches.xlsx")
+missing_info = clean_matches_data.isnull().sum() / len(data)
+print(missing_info)
 
 # clean_matches_data.to_excel("Soccer:Football/DataSets/cleaned_matches.xlsx")
 # missing_info = clean_matches_data.isnull().sum() / len(data)
