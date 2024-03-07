@@ -162,39 +162,4 @@ clean_matches_data.to_excel("Soccer:Football/DataSets/cleaned_matches.xlsx")
 missing_info = clean_matches_data.isnull().sum() / len(data)
 print(missing_info)
 
-""" DELETE THIS BEFORE COMMITTING DELETE THIS BEFORE COMMITTING DELETE THIS BEFORE COMMITTING DELETE THIS BEFORE COMMITTING """
 
-""" Beginning of Simple linear regression"""
-
-# X = clean_data[["SV"]]
-# y = clean_data[["W"]]
-
-# X_train, X_test, y_train, y_test = train_test_split(
-#     X, y, test_size=0.2, random_state=42
-# )
-
-# model = LinearRegression()
-# model.fit(X_train, y_train)
-
-# y_pred = model.predict(X_test)
-
-
-# print("Coefficients\tMean Squared Error\tR Squared")
-# print(
-#     f"{model.coef_}\t{mean_squared_error(y_test, y_pred)}%.2f\t{r2_score(y_test, y_pred)}"
-# )
-
-# """"End of Linear Regression"""
-# columns = ["PKG/A", "GA", "GAA"]
-
-# fig, axes = plt.subplots(nrows=len(columns), figsize=(10, 5 * len(columns)))
-# if len(columns) == 1:
-#     axes = [axes]
-# for ax, column in zip(axes, columns):
-#     ax.hist(clean_data[column].dropna(), bins=100)
-#     ax.set_xlabel("Value")
-#     ax.set_ylabel("Frequency")
-
-
-# plt.tight_layout()
-# plt.show()
