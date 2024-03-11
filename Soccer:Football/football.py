@@ -70,7 +70,7 @@ def convert_fraction_to_decimal(fraction_str):
         return None
 
 
-""" Applying the function to the column and verifying the results after removing the zeroes"""
+""" Applying the function to the column and verifying the results after removing the zeroes """
 data = remove_zeroes(data, "PKG/A")
 data["PKG/A"] = data["PKG/A"].apply(convert_date_string_to_fraction)
 print(data["PKG/A"].head())
