@@ -1,3 +1,4 @@
+#IMPORTS
 import pandas as pd
 import numpy as np
 import re
@@ -9,6 +10,11 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from datetime import datetime
 
+################################################################
+
+#DEFINES CHANGE AS NEEDED
+RAW_GK_XLSX_PATH = "./DataSets/all_goalkeepers.xlsx"
+CLEAN_GK_XLSX_PATH = "./DataSets/cleaned_all_goalkeepers.xlsx"
 
 """
 GP - Games Played
@@ -32,7 +38,7 @@ Season - Season
 """ ------------------------------------------GOAL KEEPERS DATA------------------------------------------ """
 
 """ Reading the excel file into a pandas dataframe"""
-data = pd.read_excel("Soccer:Football/DataSets/all_goalkeepers.xlsx")
+data = pd.read_excel(RAW_GK_XLSX_PATH)
 
 """ Converting column to strings"""
 data["PKG/A"] = data["PKG/A"].astype(str)
@@ -80,16 +86,16 @@ print(data["PKG/A"].head())
 
 clean_data = data.dropna()
 clean_data["PKG/A"] = clean_data["PKG/A"].apply(convert_fraction_to_decimal)
-clean_data.to_excel("Soccer:Football/DataSets/cleaned_all_goalkeepers.xlsx")
+clean_data.to_excel(CLEAN_GK_XLSX_PATH)
 
-clean_data = pd.read_excel("Soccer:Football/DataSets/cleaned_all_goalkeepers.xlsx")
+clean_data = pd.read_excel(CLEAN_GK_XLSX_PATH)
 
 
 """ Cleaned data has 616 observations"""
 print(clean_data.info())
 print(data.info())
 
-""" Finding Outliers """
+""" Finding Outliers"""
 
 """ Function for Displaying boxplots with outliers in red with their numbered index"""
 
